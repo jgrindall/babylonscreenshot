@@ -30,15 +30,19 @@ require([],
             engine = new BABYLON.Engine(canvas, true);
             scene = new BABYLON.Scene(engine);
             scene.clearColor = new BABYLON.Color4(0,0,0,0);
-            camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 5,-10), scene);
-            camera.setTarget(BABYLON.Vector3.Zero());
-            camera.attachControl(canvas, false);
+            camera = new BABYLON.TargetCamera('camera1', new BABYLON.Vector3(5, 5, -5), scene);
+            camera.mode = BABYLON.Camera.ORTHOGRAPHIC_CAMERA;
+            camera.orthoTop = 5;
+            camera.orthoBottom = -5;
+            camera.orthoLeft = -5;
+            camera.orthoRight = 5;
             var light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0,1,0), scene);
-            var box = BABYLON.Mesh.CreateBox('box', 2, scene);
+            var box = BABYLON.Mesh.CreateBox('box', 0.6, scene);
             var mat = new BABYLON.StandardMaterial();
             mat.diffuseColor = new BABYLON.Color3(1, 0, 0);
             box.material = mat;
             box.position.y = 1;
+            camera.setTarget(box.position);
             engine.runRenderLoop(function(){
                 scene.render();
                 if (ss) {
